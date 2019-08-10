@@ -1,33 +1,24 @@
+require('./config/config');
+
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+
 const bodyParser = require('body-parser');
 
-// require('./config/config');
-
-
-// Middlewares
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
 app.use(bodyParser.json());
 
+app.use(require('./routes/usuario'));
 
-app.get('/usuarios', function(req, res) {
-    res.send('GET usuarios');
-});
-
-app.post('/usuarios', function(req, res){
-    let body = req.body;
-    res.json({ body });
-});
-
-app.put('/usuarios/:id', function(req, res){
-    let id = req.params.id;
-    res.json({ id });
-});
-
-app.delete('/usuarios', function(req, res){
-    res.send('DELETE usuarios')
+// useFindAndModify: false
+mongoose.connect(process.env.URLDB, { useCreateIndex: true, useNewUrlParser: true }, (err, res) => {
+    if(err) throw err;
+    console.log(`Conexión a la DB establecida.`);
 });
 
 app.listen(process.env.PORT, () => {
-    console.log(`Servidor corriendo en el puerto: `, 3000);
+    console.log('Escuchando puerto: ', process.env.PORT);
 });
