@@ -19,7 +19,7 @@ app.use(require('./routes/index'));
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 // useFindAndModify: false
-mongoose.connect(process.env.URLDB, { useCreateIndex: true, useNewUrlParser: true }, (err, res) => {
+mongoose.connect(process.env.URLDB, { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: false }, (err, res) => {
     if(err) throw err;
     console.log(`Conexión a la DB establecida.`);
 });
